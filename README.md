@@ -1,5 +1,8 @@
 # switch
 
+Dynamic event managment service based on publisher/subscriber model, it allows your service call sequence to be
+as dynamic as a DB change
+
 ## setup
 
 To run server

@@ -8,6 +8,7 @@ logger = logging.getLogger()
 
 tag = '[Switch_Consumer]'
 
+
 def subtitute_path_variables_in_url(url, path_params):
     """
     Args:
@@ -22,6 +23,7 @@ def subtitute_path_variables_in_url(url, path_params):
 
     return url
 
+
 def parse_message(payload):
     """parses a base64 string into its original json format
     Args:
@@ -33,12 +35,12 @@ def parse_message(payload):
     try:
         return json.loads(base64.b64decode(payload).decode('utf-8'))
     except Exception as e:
-        logger.error(
-            f'{tag} Failed to parse payload into json| error {e}')
+        logger.error(f'{tag} Failed to parse payload into json| error {e}')
         return False
 
+
 def check_filter_expression_satisfied(filter_exp, data):
-    """check if  boolean expression for the subscriber is satified for the current request params or not 
+    """check if  boolean expression for the subscriber is satified for the current request params or not
     Args:
         filter_exp: (string) a string containig the condition on which the job is accepted for this subscriber
                     example data['body']['blabla'] == 'anything' or data['headers']['kaza'] == 'kaz_tani'
@@ -52,9 +54,9 @@ def check_filter_expression_satisfied(filter_exp, data):
         return eval(filter_exp)
 
     except Exception as e:
-        logger.error(
-            f'{tag} Failed to evaluate filter for sub (filter: {filter_exp})  | error {e}')
+        logger.error(f'{tag} Failed to evaluate filter for sub (filter: {filter_exp})  | error {e}')
         return False
+
 
 def process_job(url, filter_exp, payload):
     """processes the job data and sends the request to the respective url with all params as specified
@@ -88,7 +90,7 @@ def process_job(url, filter_exp, payload):
                                 url=url,
                                 params=query_params,
                                 headers=headers,
-                                data=body)
+                                data=json.dumps(body))
         resp.raise_for_status()
         logger.info(f"{tag} Job Executed Sucessfully")
     else:

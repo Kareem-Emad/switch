@@ -1,5 +1,6 @@
 import unittest
 import responses
+import json
 
 from requests import ConnectionError
 from utils import check_filter_expression_satisfied, parse_message, process_job
@@ -101,6 +102,7 @@ class TestUtils(unittest.TestCase):
         process job should pass filtering and data decoding phases
         and sucessfully send request to mocked url
         """
+        expected_payload = {'message': 'The force is strong with this one...'}
         encoded_data = "eyJib2R5IjogeyJtZXNzYWdlIjogIlR\oZSBmb3JjZSBpcyBzdHJvbmcgd2l0aCB0aGlzIG9uZS4uLiJ9LCAiaGVhZGVycyI6IHsiYWxwaGEiOiAiYmV0YSIsICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiJ9LCAicXVlcnlfcGFyYW1zIjogeyJtaSI6ICJwaWFjaXRvIn0sICJwYXRoX3BhcmFtcyI6IHsiZG9tYWluIjogInBpcGVkcmVhbSJ9fQ=="
         filter_exp = "data['headers']['alpha'] == 'beta' and data['query_params']['mi'] == 'piacito'"
         url = 'https://leadrole.cage'
@@ -111,6 +113,7 @@ class TestUtils(unittest.TestCase):
                       status=200)
 
         process_job(url=url, filter_exp=filter_exp, payload=encoded_data)
+        self.assertEqual(json.loads(responses.calls[0].request.body), expected_payload)
 
     def test_process_job_fail(self):
         """

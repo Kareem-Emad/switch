@@ -1,3 +1,6 @@
 */**/venv
 *.db
+**/__pycache__
 .vscode
+*.bin
+venv

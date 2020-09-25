@@ -1,0 +1,5 @@
+import os
+
+QUEUE_NAME = os.getenv("SWITCH_PRODUCTION_QUEUE", 'switch_queue')
+QUEUE_JOB_TYPE = os.getenv("SWITCH_PRODUCTION_QUEUE_NAMESPACE", 'pubsub')
+WORKER_CONCURRENCY = int(os.getenv("SWITCH_CONSUMER_CONCURRENCY_LEVEL", 1))

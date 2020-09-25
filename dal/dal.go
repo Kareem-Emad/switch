@@ -1,4 +1,4 @@
-package dal
+package dal // data access layer
 
 import (
 	"fmt"

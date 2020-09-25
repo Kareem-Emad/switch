@@ -49,3 +49,11 @@ func GroupSubscribersByTopic() map[string][]Subscriber {
 	}
 	return subscriberTopicGroups
 }
+
+// DeleteAllSubscribers deletes all subscribers' records from database
+func DeleteAllSubscribers() bool {
+	db := openConnection()
+
+	result := db.Where("1 = 1").Delete(&Subscriber{})
+	return result.Error == nil
+}
